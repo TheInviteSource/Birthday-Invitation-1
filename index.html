@@ -172,28 +172,58 @@
 
   </div>
 
-  <script>
-    const curtain = document.getElementById('curtain');
-    const tapText = document.getElementById('tapText');
-    const bgMusic = document.getElementById('bgMusic');
+<script>
+  const curtain = document.getElementById('curtain');
+  const tapText = document.getElementById('tapText');
+  const bgMusic = document.getElementById('bgMusic');
 
-    let opened = false;
+  let opened = false;
 
-    curtain.addEventListener('click', () => {
-      if (!opened) {
-        curtain.classList.add('open');
-        tapText.innerHTML = 'TAP TO CLOSE';
-        bgMusic.play();
-        opened = true;
-      } else {
-        curtain.classList.remove('open');
-        tapText.innerHTML = 'TAP TO OPEN';
-        bgMusic.pause();
-        bgMusic.currentTime = 0;
-        opened = false;
-      }
-    });
-  </script>
+  curtain.addEventListener('click', () => {
+
+    if (!opened) {
+
+      curtain.classList.add('open');
+      tapText.innerHTML = 'TAP TO CLOSE';
+
+      // Smooth fade in
+      bgMusic.volume = 0;
+
+      bgMusic.play().catch(() => {
+        console.log("Music autoplay blocked.");
+      });
+
+      let fadeIn = setInterval(() => {
+        if (bgMusic.volume < 1) {
+          bgMusic.volume = Math.min(1, bgMusic.volume + 0.05);
+        } else {
+          clearInterval(fadeIn);
+        }
+      }, 100);
+
+      opened = true;
+
+    } else {
+
+      curtain.classList.remove('open');
+      tapText.innerHTML = 'TAP TO OPEN';
+
+      // Smooth fade out
+      let fadeOut = setInterval(() => {
+        if (bgMusic.volume > 0) {
+          bgMusic.volume = Math.max(0, bgMusic.volume - 0.05);
+        } else {
+          bgMusic.pause();
+          bgMusic.currentTime = 0;
+          clearInterval(fadeOut);
+        }
+      }, 100);
+
+      opened = false;
+    }
+
+  });
+</script>
 
 </body>
 </html>
