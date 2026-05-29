@@ -99,19 +99,27 @@
 
 .tap-text {
   position: absolute;
-  top: 88%;
+
+  top: 42%;
   left: 50%;
   transform: translate(-50%, -50%);
-  
-  color: #fff7fa;
-  font-size: 10px;
+
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 2px;
+
   z-index: 3;
 
   animation: pulse 1.5s infinite;
-  text-shadow: 0 0 12px rgba(122, 0, 25, 0.8);
+
+  text-shadow:
+    0 0 10px rgba(122, 0, 25, 0.9),
+    0 0 20px rgba(122, 0, 25, 0.6);
+
+  text-align: center;
 
   width: 100%;
-  text-align: center;
 }
 
     @keyframes pulse {
